@@ -12,12 +12,17 @@
     "lint:test": "solhint --config \".solhint-test.json\"  --ignore-path \".solhintignore-test\" packages/**/*.t.sol",
     "wtf": "which forge",
     "test": "forge test",
+    "test:fork": "FOUNDRY_FS_PERMISSIONS='read(./broadcast)' forge test --match-contract AceStandardERC20ComplianceTest --fork-url $RPC_URL",
     "test:coverage": "forge coverage",
     "test:coverage:report": "forge coverage --report lcov && genhtml lcov.info --branch-coverage --output-dir coverage",
     "docs": "forge doc --serve --port 4000",
     "deploy:token:simple": "forge script ./script/DeploySimpleComplianceToken.s.sol --via-ir --broadcast --rpc-url ${RPC_URL:=local}",
     "deploy:token:erc20": "forge script ./script/DeployComplianceTokenERC20.s.sol --via-ir --broadcast --rpc-url ${RPC_URL:=local}",
-    "deploy:token:erc3643": "forge script ./script/DeployComplianceTokenERC3643.s.sol --via-ir --broadcast --rpc-url ${RPC_URL:=local}"
+    "deploy:token:erc3643": "forge script ./script/DeployComplianceTokenERC3643.s.sol --via-ir --broadcast --rpc-url ${RPC_URL:=local}",
+    "deploy:token:ACEToken": "forge script ./script/DeployAceStandardERC20.s.sol:DeployAceStandardERC20 --via-ir --broadcast --rpc-url http://localhost:8545 --private-key $PRIVATE_KEY",
+    "deploy:token:ACETokenSGN": "forge script ./script/DeployAceStandardERC20.s.sol:DeployAceStandardERC20 --rpc-url $RPC_URL --chain-id $CHAIN_ID --private-key $PRIVATE_KEY  --broadcast --slow --legacy  --gas-price 0",
+    "test:demo:ACETokenSGN": "forge script ./script/DemoAceCompliance.s.sol:DemoAceCompliance --rpc-url $RPC_URL --chain-id $CHAIN_ID --private-key $PRIVATE_KEY --broadcast --slow --legacy --gas-price 0 --skip-simulation",
+    "verify:ace": "node ./script/verify-ace.js"
   },
   "keywords": [],
   "author": "",
@@ -28,5 +33,9 @@
     "@openzeppelin/contracts-upgradeable": "^5.0.2",
     "forge-std": "github:foundry-rs/forge-std#v1.9.4",
     "solhint": "^5.0.4"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "ethers": "^6.15.0"
   }
 }
